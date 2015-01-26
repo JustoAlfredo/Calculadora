@@ -13,10 +13,20 @@ package calculadora;
 public class Ventana_Calculadora extends javax.swing.JFrame {
     
     private String campo;
+    private char operacion;
+    private float numUno;
+    private double numDos;
+    private boolean punto;
     
     public Ventana_Calculadora() {
         initComponents();
         this.campo = "";
+        this.operacion = 'c';
+        this.numUno = 0;
+        this.numDos = 0;
+        this.txtCampo.setText("0");
+        this.punto = false;
+        
     }
 
     /**
@@ -48,9 +58,12 @@ public class Ventana_Calculadora extends javax.swing.JFrame {
         btnIgual = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Calculadora");
+        setResizable(false);
 
         txtCampo.setEditable(false);
         txtCampo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        txtCampo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtCampo.setFocusable(false);
 
         btnUno.setText("1");
@@ -124,6 +137,11 @@ public class Ventana_Calculadora extends javax.swing.JFrame {
         });
 
         btnPunto.setText(".");
+        btnPunto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPuntoActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setText("c");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -133,14 +151,40 @@ public class Ventana_Calculadora extends javax.swing.JFrame {
         });
 
         btnResta.setText("-");
+        btnResta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestaActionPerformed(evt);
+            }
+        });
 
+        btnSuma.setBackground(new java.awt.Color(255, 255, 255));
         btnSuma.setText("+");
+        btnSuma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSumaActionPerformed(evt);
+            }
+        });
 
         btnMultiplicacion.setText("*");
+        btnMultiplicacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMultiplicacionActionPerformed(evt);
+            }
+        });
 
         btnDivision.setText("/");
+        btnDivision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDivisionActionPerformed(evt);
+            }
+        });
 
         btnIgual.setText("=");
+        btnIgual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIgualActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,7 +213,7 @@ public class Ventana_Calculadora extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtCampo, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnUno, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,8 +234,8 @@ public class Ventana_Calculadora extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnTres, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnSuma, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnSuma)
+                                        .addGap(4, 4, 4)
                                         .addComponent(btnResta, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
@@ -235,91 +279,263 @@ public class Ventana_Calculadora extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnoActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "1";
-            this.txtCampo.setText(this.campo);
+        
+        if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
+        }
+        if(longitud()){
+            cargaSiguienteNumero("1");
         }
     }//GEN-LAST:event_btnUnoActionPerformed
 
     private void btnDosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDosActionPerformed
-       if (longitud()){
-            this.campo = this.campo + "2";
-            this.txtCampo.setText(this.campo);
+       if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+        
+       if(longitud()){
+         cargaSiguienteNumero("2");
+       }
+          
     }//GEN-LAST:event_btnDosActionPerformed
 
     private void btnTresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTresActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "3";
-            this.txtCampo.setText(this.campo);
+        if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+        
+        if (longitud()){
+            cargaSiguienteNumero("3");
+        }
+        
     }//GEN-LAST:event_btnTresActionPerformed
 
     private void btnCuatroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuatroActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "4";
-            this.txtCampo.setText(this.campo);
+        if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+        
+        if(longitud()){
+            cargaSiguienteNumero("4");
+        }
+         
     }//GEN-LAST:event_btnCuatroActionPerformed
 
     private void btnCincoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCincoActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "5";
-            this.txtCampo.setText(this.campo);
+        if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+        
+        if (longitud()){
+            cargaSiguienteNumero("5");
+        }
+     
     }//GEN-LAST:event_btnCincoActionPerformed
 
     private void btnSeisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeisActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "6";
-            this.txtCampo.setText(this.campo);
+        if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+        if(longitud()){
+            cargaSiguienteNumero("6");
+        }
+       
     }//GEN-LAST:event_btnSeisActionPerformed
 
     private void btnSieteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSieteActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "7";
-            this.txtCampo.setText(this.campo);
+       if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+       if(longitud()){
+            cargaSiguienteNumero("7");
+       }
     }//GEN-LAST:event_btnSieteActionPerformed
 
     private void btnOchoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOchoActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "8";
-            this.txtCampo.setText(this.campo);
+        if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+        
+        if(longitud()){
+            cargaSiguienteNumero("8");
+        }
+         
     }//GEN-LAST:event_btnOchoActionPerformed
 
     private void btnNueveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNueveActionPerformed
-       if (longitud()){
-            this.campo = this.campo + "9";
-            this.txtCampo.setText(this.campo);
+       if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+       
+       if(longitud()){
+            cargaSiguienteNumero("9");
+       }
     }//GEN-LAST:event_btnNueveActionPerformed
 
     private void btnCeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCeroActionPerformed
-        if (longitud()){
-            this.campo = this.campo + "0";
-            this.txtCampo.setText(this.campo);
+        if (this.operacion != 'c' & this.campo.length()==0){
+            limpiar();
         }
+       if(longitud()){
+            cargaSiguienteNumero("0");
+       }
     }//GEN-LAST:event_btnCeroActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumaActionPerformed
+       this.operacion = '+';
+       
+       this.numUno = regresaNum();
+       limpiar("");
+       btnSuma.setBackground(new java.awt.Color(51, 204, 255));       
+       btnResta.setBackground(new java.awt.Color(255, 255, 255));       
+       btnMultiplicacion.setBackground(new java.awt.Color(255, 255, 255));       
+       btnDivision.setBackground(new java.awt.Color(255, 255, 255));       
+       
+    }//GEN-LAST:event_btnSumaActionPerformed
+
+    private void btnRestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaActionPerformed
+       this.operacion = '-';
+       this.numUno = regresaNum();
+       limpiar("");
+       btnSuma.setBackground(new java.awt.Color(255, 255, 255));       
+       btnResta.setBackground(new java.awt.Color(51, 204, 255));       
+       btnMultiplicacion.setBackground(new java.awt.Color(255, 255, 255));       
+       btnDivision.setBackground(new java.awt.Color(255, 255, 255)); 
+    }//GEN-LAST:event_btnRestaActionPerformed
+
+    private void btnMultiplicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplicacionActionPerformed
+        this.operacion = '*'; 
+        this.numUno = regresaNum();
+        limpiar("");
+       
+        btnSuma.setBackground(new java.awt.Color(255, 255, 255));       
+        btnResta.setBackground(new java.awt.Color(255, 255, 255));       
+        btnMultiplicacion.setBackground(new java.awt.Color(51, 204, 255));       
+        btnDivision.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btnMultiplicacionActionPerformed
+
+    private void btnDivisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDivisionActionPerformed
+        this.operacion = '/';
+        this.numUno = regresaNum();
+        limpiar("");
+        btnSuma.setBackground(new java.awt.Color(255, 255, 255));       
+        btnResta.setBackground(new java.awt.Color(255, 255, 255));       
+        btnMultiplicacion.setBackground(new java.awt.Color(255, 255, 255));       
+        btnDivision.setBackground(new java.awt.Color(51, 204, 255));       
+    }//GEN-LAST:event_btnDivisionActionPerformed
+
+    private void btnIgualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIgualActionPerformed
+       switch(this.operacion){
+           
+           case '+':
+               this.txtCampo.setText(String.valueOf(this.numUno + (Double.parseDouble(this.txtCampo.getText()))));
+               break;
+           case '-':
+               this.txtCampo.setText(String.valueOf(this.numUno - (Double.parseDouble(this.txtCampo.getText()))));
+               break;
+           case '*':
+               this.txtCampo.setText(String.valueOf(this.numUno * (Double.parseDouble(this.txtCampo.getText()))));
+               break;
+           case '/':
+               if(Double.parseDouble(this.txtCampo.getText())!=0){
+                    this.txtCampo.setText(String.valueOf(this.numUno / (Double.parseDouble(this.txtCampo.getText()))));
+               }else{
+                   this.txtCampo.setText("Error");
+               }
+               break;                                                            
+       }
+       
+       this.operacion = 'c';
+       limpiar("");
+       this.punto = false;
+       
+    }//GEN-LAST:event_btnIgualActionPerformed
+
+    private void btnPuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPuntoActionPerformed
+       if ((this.operacion == 'c' | this.operacion!='c') & this.punto ==false & this.campo.length()==0){
+            limpiar();
+        }
+        ponePunto();        
+    }//GEN-LAST:event_btnPuntoActionPerformed
     
+    private float regresaNum(){
+        this.campo = "";
+        System.out.println(Float.parseFloat(this.txtCampo.getText()));
+        return (Float.parseFloat(this.txtCampo.getText()));
+        
+    }
     private boolean longitud(){
-        if (this.campo.length()<9){
+        int cantidad = 0;
+        
+        cantidad = this.campo.length();
+        
+        if(this.punto == true){
+            cantidad = cantidad - 1;            
+        } 
+                        
+        if (cantidad<9){            
+          return true;
+        }else{
+          return false;
+        }
+    }
+    
+    private boolean posicionPunto(){
+        char[] caracteres;
+        
+        caracteres = this.txtCampo.getText().toCharArray();
+        //System.out.println(caracteres.length);
+        
+        if (caracteres.length==9){
             return true;
         }else{
             return false;
         }
+        
+       
+    }
+    
+    private void cargaSiguienteNumero(String num){
+        this.campo = this.campo + num;
+        this.txtCampo.setText(this.campo);
+    }
+    
+    private void ponePunto(){
+  
+        if (this.punto == false){
+            if (this.campo.length() == 0){
+                this.campo = this.campo + this.txtCampo.getText() + ".";
+                this.txtCampo.setText(this.campo);
+            }else if (posicionPunto()){
+                this.campo = this.campo + ".0";
+                this.txtCampo.setText(this.campo);
+            }else{
+                this.campo = this.campo + ".";
+                this.txtCampo.setText(this.campo);
+            }
+            
+            this.punto = true;
+        }
     }
     
     private void limpiar(){
-        this.txtCampo.setText("");
-        this.campo = "";
+        this.txtCampo.setText("0");
+        this.campo = ""; 
+        this.punto = false;              
     }
+    
+    private void limpiar(String msg){
+        this.campo = msg; 
+        btnSuma.setBackground(new java.awt.Color(255, 255, 255));       
+        btnResta.setBackground(new java.awt.Color(255, 255, 255));       
+        btnMultiplicacion.setBackground(new java.awt.Color(255, 255, 255));       
+        btnDivision.setBackground(new java.awt.Color(255, 255, 255)); 
+    }
+    
     /**
      * @param args the command line arguments
      */
